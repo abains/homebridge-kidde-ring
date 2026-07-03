@@ -1,0 +1,35 @@
+# Publishes to npm when a GitHub Release is published.
+#
+# One-time setup: create an npm Automation token (npmjs.com -> Access Tokens
+# -> Generate New Token -> Automation) and add it as the NPM_TOKEN secret in
+# this repo's Settings -> Secrets and variables -> Actions.
+#
+# Release flow: bump "version" in package.json, push, then create a GitHub
+# Release with a matching tag (e.g. v0.2.0) — this workflow builds and
+# publishes with npm provenance.
+
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # npm provenance
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
