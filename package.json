@@ -1,0 +1,45 @@
+{
+  "name": "homebridge-kidde-ring",
+  "version": "0.1.0",
+  "description": "Homebridge plugin for Kidde Smart Smoke + CO Alarms with Ring compatibility (RGCUAR-RW, RGSAR-RW, RGCUDR-RW). Exposes smoke, carbon monoxide, and battery state to Apple HomeKit with real-time push updates.",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "bin": {
+    "kidde-ring-auth": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "config.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.15.0",
+    "homebridge": "^1.6.0 || ^2.0.0-beta.0"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "kidde",
+    "ring",
+    "smoke-detector",
+    "carbon-monoxide",
+    "homekit",
+    "RGCUAR-RW"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/ws": "^8.5.10",
+    "homebridge": "^1.8.4",
+    "typescript": "^5.5.4"
+  }
+}

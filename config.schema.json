@@ -1,0 +1,61 @@
+{
+  "pluginAlias": "KiddeRing",
+  "pluginType": "platform",
+  "singular": true,
+  "headerDisplay": "Exposes Kidde Smart Smoke + CO Alarms with Ring compatibility (RGCUAR-RW, RGSAR-RW, RGCUDR-RW) to HomeKit. Generate a refresh token with `npx -p homebridge-kidde-ring kidde-ring-auth` (required if your Ring account uses 2FA, which is Ring's default).",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Name",
+        "type": "string",
+        "default": "Kidde Ring",
+        "required": true
+      },
+      "refreshToken": {
+        "title": "Ring Refresh Token",
+        "type": "string",
+        "description": "Recommended. Generate with: npx -p homebridge-kidde-ring kidde-ring-auth"
+      },
+      "email": {
+        "title": "Ring Email",
+        "type": "string",
+        "description": "Only works for Ring accounts without two-factor authentication. Prefer the refresh token."
+      },
+      "password": {
+        "title": "Ring Password",
+        "type": "string",
+        "x-schema-form": {
+          "type": "password"
+        }
+      },
+      "locationIds": {
+        "title": "Location IDs",
+        "type": "array",
+        "items": {
+          "title": "Location ID",
+          "type": "string"
+        },
+        "description": "Optional. Restrict to specific Ring location IDs; leave empty for all locations."
+      },
+      "refreshIntervalMinutes": {
+        "title": "Fallback Refresh Interval (minutes)",
+        "type": "integer",
+        "default": 60,
+        "minimum": 1,
+        "description": "State arrives in real time over a push connection; this is only a periodic full-refresh safety net."
+      },
+      "lowBatteryThreshold": {
+        "title": "Low Battery Threshold (%)",
+        "type": "integer",
+        "default": 20,
+        "minimum": 1,
+        "maximum": 99
+      }
+    },
+    "anyOf": [
+      { "required": ["refreshToken"] },
+      { "required": ["email", "password"] }
+    ]
+  }
+}
